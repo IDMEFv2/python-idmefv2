@@ -1,0 +1,2 @@
+graft idmefv2/schemas/drafts/IDMEFv2/*
+global-exclude *.html *.pdf *.txt *.xml *.xlsx *.docx

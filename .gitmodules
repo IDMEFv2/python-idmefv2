@@ -1,4 +1,4 @@
-[submodule "data"]
-	path = data
-	url = https://github.com/SECEF/idmefv2-definition.git
+[submodule "idmefv2/schemas/drafts"]
+	path = idmefv2/schemas/drafts
+	url = git@github.com:IDMEFv2/IDMEFv2-Drafts.git
 	branch = main
