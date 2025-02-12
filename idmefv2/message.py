@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import json
+import re
+import importlib.resources
 import jsonschema
-from pkg_resources import resource_stream
 
 from .serializer import get_serializer
 
@@ -43,22 +44,39 @@ class SerializedMessage(object):
 
 
 class Message(dict):
-    _VERSIONS = {
-        None: 'IDMEFv2.schema',
-        '2.0.3': 'IDMEFv2.schema',
-    }
+    _SCHEMA_BASE_PACKAGE = 'idmefv2.schemas.drafts.IDMEFv2'
+    _SCHEMA_RESOURCE = 'IDMEFv2.schema'
 
     def __init__(self):
         # The messages are empty right after initialization.
         pass
 
+    def __get_version(self):
+        version_in_message = self.get('Version')
+        if version_in_message is None or not isinstance(version_in_message, str):
+            return None
+        pat = r'\d\.D\.V([\d]+)'
+        m = re.match(pat, version_in_message)
+        if m is None:
+            return None
+        version = m.group(1)
+        return version
+
+    def __get_schema_resource(self):
+        version = self.__get_version()
+        if version is not None:
+            version_package = self._SCHEMA_BASE_PACKAGE + '.' + version
+            if importlib.resources.is_resource(version_package, self._SCHEMA_RESOURCE):
+                return importlib.resources.files(version_package).joinpath(self._SCHEMA_RESOURCE)
+        latest_package = self._SCHEMA_BASE_PACKAGE + '.latest'
+        return importlib.resources.files(latest_package).joinpath(self._SCHEMA_RESOURCE)
+
     def validate(self) -> None:
-        schema_file = self._VERSIONS.get(self.get('Version'), self._VERSIONS[None])
-        stream = resource_stream('idmefv2.schemas', schema_file)
-        try:
-            jsonschema.validate(self, json.load(stream))
-        finally:
-            stream.close()
+        with self.__get_schema_resource().open('rb') as stream:
+            try:
+                jsonschema.validate(self, json.load(stream))
+            finally:
+                stream.close()
 
     def serialize(self, content_type: str) -> SerializedMessage:
         serializer = get_serializer(content_type)
@@ -67,10 +85,10 @@ class Message(dict):
         return SerializedMessage(content_type, payload)
 
     @classmethod
-    def unserialize(self, payload: SerializedMessage) -> 'Message':
+    def unserialize(cls, payload: SerializedMessage) -> 'Message':
         serializer = get_serializer(payload.get_content_type())
         fields = serializer.unserialize(bytes(payload))
-        message = self()
+        message = cls()
         message.update(fields)
         message.validate()
         return message

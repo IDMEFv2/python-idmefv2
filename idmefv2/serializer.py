@@ -2,13 +2,10 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import abc
-import pkg_resources
+import importlib.metadata
 import warnings
 
-from collections.abc import Callable
-
-_serializers = None
-
+_SERIALIZERS = None
 
 class Serializer(metaclass=abc.ABCMeta):
     @abc.abstractmethod
@@ -49,16 +46,17 @@ def get_serializer(content_type: str) -> 'Serializer':
     This method MUST raise a KeyError exception when a serializer
     compatible with the given MIME type cannot be found.
     """
-    global _serializers
+    global _SERIALIZERS
 
-    if _serializers is None:
-        _serializers = {}
-        for entry_point in pkg_resources.iter_entry_points('idmefv2.serializer'):
+    if _SERIALIZERS is None:
+        _SERIALIZERS = {}
+        entry_points = importlib.metadata.entry_points(group = 'idmefv2.serializers')
+        for entry_point in entry_points:
             try:
                 cls = entry_point.load()
                 if issubclass(cls, Serializer):
-                    _serializers[entry_point.name] = cls
+                    _SERIALIZERS[entry_point.name] = cls
             except Exception as e:
                 warnings.warn(str(e), ResourceWarning)
 
-    return _serializers[content_type]()
+    return _SERIALIZERS[content_type]()

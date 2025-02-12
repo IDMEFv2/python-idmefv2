@@ -1,0 +1,42 @@
+[project]
+name = "idmefv2"
+version = "0.0.1"
+dependencies = [
+  "jsonschema",
+]
+requires-python = ">=3.10"
+authors = [
+  {name = "Bytes 'n AI"},
+  {name = "François Poirotte"},
+  {name = "Gilles Lehmann"},
+]
+maintainers = [
+]
+description = "Modelization and serialization library for IDMEF v2"
+readme = "README.rst"
+license = {file = "LICENSE"}
+keywords = ["IDMEFv2"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Security",
+    "Topic :: System :: Monitoring"
+]
+
+[project.urls]
+Homepage = "https://www.idmefv2.org"
+Repository = "https://github.com/IDMEFv2/python-idmefv2"
+"Bug Tracker" = "https://github.com/IDMEFv2/python-idmefv2/issues"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.entry-points."idmefv2.serializers"]
+"application/json" = "idmefv2.serializers.json:JSONSerializer"
+"text/json" = "idmefv2.serializers.json:JSONSerializer"
