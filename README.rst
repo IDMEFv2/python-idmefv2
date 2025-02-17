@@ -50,10 +50,12 @@ It is highly recommended to install the library in a Python *virtualenv* <https:
 To install the library, simply run:
 
 ..  sourcecode:: sh
+
     # if using a virtualenv
     /PATH/TO/THE/PIP/OF/YOUR/VIRTUALENV/bin/pip install .
 
 ..  sourcecode:: sh
+
     # if NOT using a virtualenv
     pip install .
 
