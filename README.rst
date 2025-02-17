@@ -26,15 +26,6 @@ Intrusion Detection Message Exchange Format in
 Installation
 ============
 
-The following prerequisites must be installed on your system to install and use
-this library:
-
-* Python 3.6 or later
-* The Python `setuptools <https://pypi.org/project/setuptools/>`_ package
-  (usually available as a system package under the name ``python3-setuptools``)
-* The Python `jsonschema <https://pypi.org/project/jsonschema/>`_ package
-  (usually available as a system package under the name ``python3-jsonschema``)
-
 This repository uses Git submodules to include a copy of the IDMEFv2 JSON schema.
 When installing from sources using a Git clone, make sure you also initialize
 the submodules:
@@ -43,12 +34,28 @@ the submodules:
 
     git submodule init
 
+The following prerequisites must be installed on your system to install and use
+this library:
+
+* Python 3.10 or later
+* The Python `setuptools <https://pypi.org/project/setuptools/>`_ package
+  (usually available as a system package under the name ``python3-setuptools``)
+* The Python `jsonschema <https://pypi.org/project/jsonschema/>`_ package
+  (usually available as a system package under the name ``python3-jsonschema``)
+
+These prerequisites are installed automatically when installing the library as described below.
+
+It is highly recommended to install the library in a Python *virtualenv* <https://virtualenv.pypa.io/en/latest/>, unless running inside a container.
+
 To install the library, simply run:
 
 ..  sourcecode:: sh
+    # if using a virtualenv
+    /PATH/TO/THE/PIP/OF/YOUR/VIRTUALENV/bin/pip install .
 
-    # Replace "python3" with the full path to the Python 3 interpreter if necessary.
-    sudo python3 install setup.py
+..  sourcecode:: sh
+    # if NOT using a virtualenv
+    pip install .
 
 Usage
 =====
