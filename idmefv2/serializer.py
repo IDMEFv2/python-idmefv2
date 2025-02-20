@@ -46,8 +46,6 @@ def get_serializer(content_type: str) -> 'Serializer':
     This method MUST raise a KeyError exception when a serializer
     compatible with the given MIME type cannot be found.
     """
-    global _SERIALIZERS
-
     if _SERIALIZERS is None:
         _SERIALIZERS = {}
         entry_points = importlib.metadata.entry_points(group = 'idmefv2.serializers')

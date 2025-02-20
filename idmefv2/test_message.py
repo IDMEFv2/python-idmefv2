@@ -1,5 +1,4 @@
 from datetime import datetime
-import sys
 import uuid
 from idmefv2.message import Message
 
