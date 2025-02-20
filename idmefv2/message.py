@@ -1,6 +1,12 @@
 # Copyright (C) 2021 CS GROUP - France. All Rights Reserved.
 # SPDX-License-Identifier: BSD-2-Clause
+'''
+IDMEFv2 message validation, serialization and deserialization.
 
+Classes:
+    SerializedMessage
+    Message
+'''
 import json
 import re
 import importlib.resources
@@ -9,11 +15,15 @@ import jsonschema
 from .serializer import Serializer
 
 class SerializedMessage:
+    '''
+    Container for a serialized IDMEFv2 message
+    '''
     def __init__(self, content_type: str, payload: bytes) -> None:
         """
         Creates a new container for a serialized IDMEFv2 message.
 
-        @param content_type:
+        Parameters:
+            content_type (str):
             The MIME type associated with the serialized payload.
 
             To promote interoperability, this SHOULD be a content type
@@ -24,7 +34,7 @@ class SerializedMessage:
             Whenever a private MIME content type is used, it MUST
             follow the naming conventions set forth by IANA.
 
-        @param payload:
+            payload(bytes):
             The IDMEFv2 message, as a serialized payload.
         """
         self.content_type = content_type
@@ -44,6 +54,9 @@ class SerializedMessage:
 
 
 class Message(dict):
+    '''
+    A class to represent a IDMEFv2 message
+    '''
     _SCHEMA_BASE_PACKAGE = 'idmefv2.schemas.drafts.IDMEFv2'
     _SCHEMA_RESOURCE = 'IDMEFv2.schema'
 
@@ -72,6 +85,12 @@ class Message(dict):
         return importlib.resources.files(latest_package).joinpath(self._SCHEMA_RESOURCE)
 
     def validate(self) -> None:
+        '''
+        Validate against the JSON schema corresponding
+        to the IDMEFv2 version contained in the message.
+
+        Raises a ValidationException if message is not valid w.r.t. schema.
+        '''
         with self.__get_schema_resource().open('rb') as stream:
             try:
                 jsonschema.validate(self, json.load(stream))
@@ -79,6 +98,12 @@ class Message(dict):
                 stream.close()
 
     def serialize(self, content_type: str) -> SerializedMessage:
+        '''
+        Serialize a message, selecting the proper Serializer according to the MIME type.
+
+            Parameters:
+                content_type (str): the MIME type of the wanted serialization data
+        '''
         serializer = Serializer.get_serializer(content_type)
         self.validate()
         payload = serializer.serialize(self)
@@ -86,6 +111,17 @@ class Message(dict):
 
     @classmethod
     def unserialize(cls, payload: SerializedMessage) -> 'Message':
+        '''
+        Deserialize a payload, selecting the proper Serializer
+        according to the MIME type of the payload.
+
+            Parameters:
+                payload (SerializedMessage): a SerializedMessage
+                containing the bytes and the MIME type
+
+            Returns:
+                message(Message): the deserialized message
+        '''
         serializer = Serializer.get_serializer(payload.get_content_type())
         fields = serializer.unserialize(bytes(payload))
         message = cls()

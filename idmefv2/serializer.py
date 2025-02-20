@@ -1,13 +1,23 @@
 # Copyright (C) 2021 CS GROUP - France. All Rights Reserved.
 # SPDX-License-Identifier: BSD-2-Clause
+'''
+Base class for sub-classes implementing serialization and deserialization.
 
+Classes:
+    Serializer
+'''
 import abc
 import importlib.metadata
 import warnings
 
 class Serializer(metaclass=abc.ABCMeta):
-    SERIALIZERS = None
+    '''
+    Abstract base class for serializers.
 
+    Provides a dictionary of serializers where key is the
+    MIME type of serialized data.
+    '''
+    SERIALIZERS = None
 
     @abc.abstractmethod
     def serialize(self, message: 'Message') -> bytes:
