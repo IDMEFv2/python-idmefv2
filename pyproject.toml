@@ -1,6 +1,6 @@
 [project]
 name = "idmefv2"
-version = "0.0.1"
+version = "0.0.3"
 dependencies = [
   "jsonschema",
 ]
@@ -11,6 +11,7 @@ authors = [
   {name = "Gilles Lehmann"},
 ]
 maintainers = [
+  {name = "François Déchelle"},
 ]
 description = "Modelization and serialization library for IDMEF v2"
 readme = "README.rst"
