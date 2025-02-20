@@ -12,6 +12,5 @@ from .serializer import (
 )
 
 from .exceptions import (
-    ValidationError,
     SerializationError,
 )

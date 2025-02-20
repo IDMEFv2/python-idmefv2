@@ -54,7 +54,7 @@ def get_serializer(content_type: str) -> 'Serializer':
                 cls = entry_point.load()
                 if issubclass(cls, Serializer):
                     _SERIALIZERS[entry_point.name] = cls
-            except Exception as e:
+            except ImportError as e:
                 warnings.warn(str(e), ResourceWarning)
 
     return _SERIALIZERS[content_type]()

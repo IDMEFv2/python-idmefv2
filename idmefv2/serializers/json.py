@@ -12,13 +12,13 @@ class JSONSerializer(Serializer):
     def serialize(self, message: Message) -> bytes:
         try:
             payload = json.dumps(message).encode('utf-8')
-        except:
-            raise SerializationError()
+        except Exception as e:
+            raise SerializationError() from e
         return payload
 
     def unserialize(self, payload: bytes) -> dict:
         try:
             message = json.loads(payload)
-        except:
-            raise SerializationError()
+        except Exception as e:
+            raise SerializationError() from e
         return message

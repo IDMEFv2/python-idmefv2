@@ -66,7 +66,7 @@ class Message(dict):
         version = self.__get_version()
         if version is not None:
             version_package = self._SCHEMA_BASE_PACKAGE + '.' + version
-            if importlib.resources.files(version_package).joinpath(rself._SCHEMA_RESOURCE).is_file():
+            if importlib.resources.files(version_package).joinpath(self._SCHEMA_RESOURCE).is_file():
                 return importlib.resources.files(version_package).joinpath(self._SCHEMA_RESOURCE)
         latest_package = self._SCHEMA_BASE_PACKAGE + '.latest'
         return importlib.resources.files(latest_package).joinpath(self._SCHEMA_RESOURCE)
