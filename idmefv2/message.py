@@ -6,7 +6,7 @@ import re
 import importlib.resources
 import jsonschema
 
-from .serializer import get_serializer
+from .serializer import Serializer
 
 class SerializedMessage:
     def __init__(self, content_type: str, payload: bytes) -> None:
@@ -79,14 +79,14 @@ class Message(dict):
                 stream.close()
 
     def serialize(self, content_type: str) -> SerializedMessage:
-        serializer = get_serializer(content_type)
+        serializer = Serializer.get_serializer(content_type)
         self.validate()
         payload = serializer.serialize(self)
         return SerializedMessage(content_type, payload)
 
     @classmethod
     def unserialize(cls, payload: SerializedMessage) -> 'Message':
-        serializer = get_serializer(payload.get_content_type())
+        serializer = Serializer.get_serializer(payload.get_content_type())
         fields = serializer.unserialize(bytes(payload))
         message = cls()
         message.update(fields)

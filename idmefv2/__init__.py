@@ -8,7 +8,6 @@ from .message import (
 
 from .serializer import (
     Serializer,
-    get_serializer,
 )
 
 from .exceptions import (

@@ -5,9 +5,10 @@ import abc
 import importlib.metadata
 import warnings
 
-_SERIALIZERS = None
-
 class Serializer(metaclass=abc.ABCMeta):
+    SERIALIZERS = None
+
+
     @abc.abstractmethod
     def serialize(self, message: 'Message') -> bytes:
         """
@@ -34,27 +35,27 @@ class Serializer(metaclass=abc.ABCMeta):
         """
         raise NotImplementedError()
 
+    @staticmethod
+    def get_serializer(content_type: str) -> 'Serializer':
+        """
+        This methods returns a serializer/unserializer compatible
+        with the requested MIME content type.
 
-def get_serializer(content_type: str) -> 'Serializer':
-    """
-    This methods returns a serializer/unserializer compatible
-    with the requested MIME content type.
+        @param content_type:
+            MIME type for which a serializer must be returned.
 
-    @param content_type:
-        MIME type for which a serializer must be returned.
+        This method MUST raise a KeyError exception when a serializer
+        compatible with the given MIME type cannot be found.
+        """
+        if Serializer.SERIALIZERS is None:
+            Serializer.SERIALIZERS = {}
+            entry_points = importlib.metadata.entry_points(group = 'idmefv2.serializers')
+            for entry_point in entry_points:
+                try:
+                    cls = entry_point.load()
+                    if issubclass(cls, Serializer):
+                        Serializer.SERIALIZERS[entry_point.name] = cls
+                except ImportError as e:
+                    warnings.warn(str(e), ResourceWarning)
 
-    This method MUST raise a KeyError exception when a serializer
-    compatible with the given MIME type cannot be found.
-    """
-    if _SERIALIZERS is None:
-        _SERIALIZERS = {}
-        entry_points = importlib.metadata.entry_points(group = 'idmefv2.serializers')
-        for entry_point in entry_points:
-            try:
-                cls = entry_point.load()
-                if issubclass(cls, Serializer):
-                    _SERIALIZERS[entry_point.name] = cls
-            except ImportError as e:
-                warnings.warn(str(e), ResourceWarning)
-
-    return _SERIALIZERS[content_type]()
+        return Serializer.SERIALIZERS[content_type]()
