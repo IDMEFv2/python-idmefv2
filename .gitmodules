@@ -1,4 +1,4 @@
 [submodule "idmefv2/schemas/drafts"]
 	path = idmefv2/schemas/drafts
-	url = git@github.com:IDMEFv2/IDMEFv2-Drafts.git
+	url = https://github.com/IDMEFv2/IDMEFv2-Drafts.git
 	branch = main
