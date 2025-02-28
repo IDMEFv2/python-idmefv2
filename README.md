@@ -18,7 +18,9 @@ The following prerequisites must be installed on your system to install and use 
 
 - Python 3.10 or later
 - The Python [setuptools](https://pypi.org/project/setuptools/) package (usually available as a system package under the name `python3-setuptools`)
-- The Python [jsonschema](https://pypi.org/project/jsonschema/) package (usually available as a system package under the name `python3-jsonschema`)
+
+Library dependencies are:
+- The Python [jsonschema](https://pypi.org/project/jsonschema/) package
 
 ## Installation
 
@@ -32,7 +34,7 @@ git submodule init
 
 It is highly recommended to install the library in a Python *virtualenv* https://virtualenv.pypa.io/en/latest/, unless running inside a container.
 
-Installing the prerequisites using `requirements.txt` is not supported; this repository provides a `pyproject.toml` which is the recommended alternative.
+Installing the dependencies using `requirements.txt` is not supported; this repository provides a `pyproject.toml` which is the recommended alternative.
 
 To install the library, simply run in the root directory of the git clone:
 
@@ -40,6 +42,8 @@ To install the library, simply run in the root directory of the git clone:
 . /PATH/TO/THE/PIP/OF/YOUR/VIRTUALENV/bin/activate  # only if using a virtualenv
 pip install --editable .
 ```
+
+This will install as well the dependencies.
 
 ### Installation from packages
 
