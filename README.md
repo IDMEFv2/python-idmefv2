@@ -12,7 +12,17 @@ IDMEFv2 messages can be transported using the [python-idmefv2-transport](https:/
 
 You can find more information about the previous version (v1) of the Intrusion Detection Message Exchange Format in [RFC 4765](https://tools.ietf.org/html/rfc4765).
 
+## Prerequisites
+
+The following prerequisites must be installed on your system to install and use this library:
+
+- Python 3.10 or later
+- The Python [setuptools](https://pypi.org/project/setuptools/) package (usually available as a system package under the name `python3-setuptools`)
+- The Python [jsonschema](https://pypi.org/project/jsonschema/) package (usually available as a system package under the name `python3-jsonschema`)
+
 ## Installation
+
+### Installation from sources
 
 This repository uses Git submodules to include a copy of the IDMEFv2 JSON schema. When installing from sources using a Git clone, make sure you also initialize the submodules:
 
@@ -20,29 +30,45 @@ This repository uses Git submodules to include a copy of the IDMEFv2 JSON schema
 git submodule init
 ```
 
-The following prerequisites must be installed on your system to install and use this library:
-
--   Python 3.10 or later
--   The Python [setuptools](https://pypi.org/project/setuptools/) package (usually available as a system package under the name `python3-setuptools`)
--   The Python [jsonschema](https://pypi.org/project/jsonschema/) package (usually available as a system package under the name `python3-jsonschema`)
-
-These prerequisites are installed automatically when installing the library as described below.
-
 It is highly recommended to install the library in a Python *virtualenv* https://virtualenv.pypa.io/en/latest/, unless running inside a container.
 
-To install the library, simply run:
+Installing the prerequisites using `requirements.txt` is not supported; this repository provides a `pyproject.toml` which is the recommended alternative.
+
+To install the library, simply run in the root directory of the git clone:
 
 ``` sh
-# if using a virtualenv
-/PATH/TO/THE/PIP/OF/YOUR/VIRTUALENV/bin/pip install .
+. /PATH/TO/THE/PIP/OF/YOUR/VIRTUALENV/bin/activate  # only if using a virtualenv
+pip install --editable .
 ```
+
+### Installation from packages
+
+`python-idmefv2` provides packages currently hosted on [TestPyPI](https://test.pypi.org/).
+
+To install using TestPyPI, use the following command:
+
+```
+pip install --extra-index-url https://test.pypi.org/simple/ idmefv2
+```
+
+## Testing
+
+Python unit tests using [`pytest`](https://docs.pytest.org/en/stable/) are provided:
 
 ``` sh
-# if NOT using a virtualenv
-pip install .
+$ pytest
+===================================================== test session starts =====================================================
+platform linux -- Python 3.12.3, pytest-8.3.4, pluggy-1.5.0
+rootdir: /SOME/WHERE/python-idmefv2
+configfile: pyproject.toml
+collected 4 items
+
+idmefv2/test_message.py ....                                                                                            [100%]
+
+====================================================== 4 passed in 0.12s ======================================================
 ```
 
-## Usage
+## Examples
 
 ### Message modelization
 
