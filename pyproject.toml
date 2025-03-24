@@ -4,7 +4,7 @@ version = "0.0.4"
 dependencies = [
   "jsonschema",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
   {name = "Bytes 'n AI"},
   {name = "François Poirotte"},
