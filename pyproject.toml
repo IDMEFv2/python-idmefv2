@@ -14,7 +14,7 @@ maintainers = [
   {name = "François Déchelle"},
 ]
 description = "Modelization and serialization library for IDMEF v2"
-readme = "README.rst"
+readme = "README.md"
 license = {file = "LICENSE"}
 keywords = ["IDMEFv2"]
 classifiers = [
