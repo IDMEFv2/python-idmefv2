@@ -1,10 +1,10 @@
 [project]
 name = "idmefv2"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
   "jsonschema",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 authors = [
   {name = "Bytes 'n AI"},
   {name = "François Poirotte"},
