@@ -68,7 +68,8 @@ def json1() -> bytes:
         "ID":"09db946e-673e-49af-b4b2-a8cd9da58de6",
         "Analyzer":{
             "Category":["LOG"],
-            "IP":"127.0.0.1","Model":"generic",
+            "IP":"127.0.0.1",
+            "Model":"generic",
             "Data":["Log"],
             "Method":["Monitor"],
             "Name":"foobar"
