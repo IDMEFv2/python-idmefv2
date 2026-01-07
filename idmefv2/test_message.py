@@ -95,3 +95,8 @@ def test_unserialize_json1():
     pelode = SerializedMessage("application/json", json1())
     message = Message.unserialize(pelode)
     assert message['Analyzer']['Category'][0] == 'LOG'
+
+def test_newer_version():
+    m = message1()
+    m['Version'] = '2.D.V05'
+    m.validate()
