@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring
 '''
 Unit tests for Message
 '''
@@ -77,21 +78,17 @@ def json1() -> bytes:
         }'''
 
 def test_message1():
-    '''Test if message is valid'''
     message1().validate()
 
 def test_message2():
-    '''Test if message is valid'''
     message2().validate()
 
 def test_serialize_message1():
-    '''Test serialization/deserialization of a message'''
     pelode = message1().serialize("application/json")
     message = Message.unserialize(pelode)
     assert message['Version'] == VERSION
 
 def test_unserialize_json1():
-    '''Test deserialization of a JSON string'''
     pelode = SerializedMessage("application/json", json1())
     message = Message.unserialize(pelode)
     assert message['Analyzer']['Category'][0] == 'LOG'
