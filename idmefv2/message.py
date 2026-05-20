@@ -81,7 +81,7 @@ class Message(dict):
             version_package = self._SCHEMA_BASE_PACKAGE + '.' + version
             if importlib.resources.files(version_package).joinpath(self._SCHEMA_RESOURCE).is_file():
                 return importlib.resources.files(version_package).joinpath(self._SCHEMA_RESOURCE)
-        latest_package = self._SCHEMA_BASE_PACKAGE + '.latest'
+        latest_package = self._SCHEMA_BASE_PACKAGE + '.latest-stable'
         return importlib.resources.files(latest_package).joinpath(self._SCHEMA_RESOURCE)
 
     def validate(self) -> None:
